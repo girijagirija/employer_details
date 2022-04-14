@@ -6,8 +6,7 @@ import '../../employer_details/employer_details_view.dart';
 
 class ListItem extends StatelessWidget {
   EmployerModel employerModel;
-
-  const ListItem({Key? key, required this.employerModel}) : super(key: key);
+   ListItem({Key? key, required this.employerModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

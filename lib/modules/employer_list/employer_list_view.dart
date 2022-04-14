@@ -19,61 +19,55 @@ class EmployerListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Employer List'),
       ),
-      body: ValueListenableBuilder<Box<EmployerModel>>(
-        valueListenable: box.listenable(),
-        builder: (context, box, child) {
-          var employerList = box.values.toList();
-          var employerFilterList = box.values.toList();
-          return employerFilterList.isEmpty
-              ? const Center(
-                  child: Text('No Employers Found'),
-                )
-              : Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Card(
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 12),
-                              hintText: 'Search By Name or Email',
-                              border: InputBorder.none),
-                          controller: controller.searchController,
-                          onChanged: (val) {
-                            if (val.isNotEmpty) {
-                              employerFilterList =
-                                  employerList.where((element) {
-                                return element.name!
-                                        .toLowerCase()
-                                        .contains(val.toLowerCase()) ||
-                                    element.email!.contains(val);
-                              }).toList();
-                            } else {
-                              employerFilterList = employerList;
-                            }
-                          },
-                        ),
-                      ),
+      body: Obx(() {
+        switch (controller.state.value) {
+          case EmployerListState.LOADING:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+            break;
+          case EmployerListState.LOADED:
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Card(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                          hintText: 'Search By Name or Email',
+                          labelText: 'Search By Name or Email',
+                          border: InputBorder.none),
+                      controller: controller.searchController,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          itemCount: employerFilterList.length,
-                          itemBuilder: (context, index) {
-                            EmployerModel employerModel =
-                                employerFilterList[index];
-                            return ListItem(employerModel: employerModel);
-                          }),
-                    ),
-                  ],
-                );
-        },
-      ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      itemCount: controller.employerFilterList.length,
+                      itemBuilder: (context, index) {
+                        EmployerModel employerModel =
+                            controller.employerFilterList[index];
+                        return ListItem(employerModel: employerModel);
+                      }),
+                ),
+              ],
+            );
+            break;
+          case EmployerListState.EMPTY:
+            return const Center(
+              child: const Text('No Employers Found'),
+            );
+            break;
+          default:
+            return Container();
+        }
+      }),
     );
   }
 }

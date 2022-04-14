@@ -17,14 +17,15 @@ class Splashcontroller extends GetxController {
 
   addEmployerInDb() async {
     var box = Hive.box<EmployerModel>(Utils.employerListBox);
-    employeeWebList.clear();
-    box.clear();
-    employeeWebList = await Repository.getEmployerDetails();
-    for (var employer in employeeWebList) {
-      box.add(employer!);
+    if(box.values.toList().isEmpty){
+      employeeWebList = await Repository.getEmployerDetails();
+      for (var employer in employeeWebList) {
+        box.add(employer!);
+      }
     }
     print('box -${box.values.toList().length}');
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     Get.offAll(() => EmployerListPage());
   }
+
 }
