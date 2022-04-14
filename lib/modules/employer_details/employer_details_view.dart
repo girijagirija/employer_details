@@ -56,6 +56,7 @@ class EmployerDetailsPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
+              ///Address INfo
               const Text('Address Info:',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               const SizedBox(
@@ -130,6 +131,7 @@ class EmployerDetailsPage extends StatelessWidget {
                   await Utils.launchURL(mapLuanchUrl);
                 }
               }, child: Text('View Directions')),
+              ///Company Info
               if(controller.model.company != null)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

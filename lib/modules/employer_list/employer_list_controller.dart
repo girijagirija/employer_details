@@ -8,8 +8,7 @@ import 'package:hive/hive.dart';
 class EmployerListcontroller extends GetxController {
   TextEditingController searchController = TextEditingController();
 
-  var employerFilterList = [];
-  var employerList = [];
+
 
   @override
   void onInit() {
