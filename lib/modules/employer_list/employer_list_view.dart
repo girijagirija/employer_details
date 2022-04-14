@@ -45,17 +45,20 @@ class EmployerListPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemCount: controller.employerFilterList.length,
-                      itemBuilder: (context, index) {
-                        EmployerModel employerModel =
-                            controller.employerFilterList[index];
-                        return ListItem(employerModel: employerModel);
-                      }),
-                ),
+                GetBuilder<EmployerListcontroller>(
+                    builder: (controller) {
+                  return Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        itemCount: controller.employerFilterList.length,
+                        itemBuilder: (context, index) {
+                          EmployerModel employerModel =
+                          controller.employerFilterList[index];
+                          return ListItem(employerModel: employerModel);
+                        }),
+                  );
+                }),
               ],
             );
             break;

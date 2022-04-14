@@ -42,7 +42,6 @@ class EmployerListcontroller extends GetxController {
   fetchList() {
     state.value = EmployerListState.LOADING;
     var box = Hive.box<EmployerModel>(Utils.employerListBox);
-
     employerFilterList = box.values.toList();
     employerList = box.values.toList();
     if (employerFilterList.isEmpty) {
